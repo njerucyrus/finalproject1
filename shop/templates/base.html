@@ -1,62 +1,170 @@
-<!DOCTYPE html>
 {% load staticfiles %}
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{% block title %} M-Fish {% endblock %}</title>
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <!-- my local css and bootstrap -->
     <link href="{% static 'css/bootstrap.min.css' %} " rel="stylesheet">
-    <title>{% block title %} Base File {% endblock %}</title>
 
-<style>
-    .bg-1 {
-    background-color: #1abc9c; /* Green */
-    color: #000000;
-}
-</style>
-</head>
-<body >
-<nav class="navbar navbar-inverse">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="#">M FISH</a>
-    </div>
-    <ul class="nav navbar-nav">
-      <li class="active"><a href="{% url 'shop:index' %}">Home</a></li>
-      <li><a href="#">About</a></li>
-      <li><a href="#">Categories</a></li>
-      <li><a href="{% url 'shop:register' %}">Sign Up</a></li>
-      <li><a href="#">Contact</a></li>
-    </ul>
-    </div>
-</nav>
-
-<div class="container ">
-<div class="col col-md-3">
-
-</div>
-{% block content %}
-<div class ="jumbotron">
-
- </div>
-{% endblock %}
-
-
-<div class ="col col-md-3">
-</div>
-</div>
-
-
-
-<!-- jQuery -->
+    <!-- jQuery -->
     <script src="{% static 'js/jquery.js' %}}"></script>
 
     <!-- Bootstrap Core JavaScript -->
-    <script src="{%static 'js/bootstrap.min.js'  %} "></script>
+    <script src="{% static 'js/bootstrap.min.js' %} "></script>
+    <!--end of my local -->
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <style>
+        /* Remove the navbar's default rounded borders and increase the bottom margin */
+        .navbar {
+            margin-bottom: 50px;
+            border-radius: 0;
+        }
+
+        /* Remove the jumbotron's default bottom margin */
+        .jumbotron {
+            margin-bottom: 0;
+
+        }
+
+        /* Add a gray background color and some padding to the footer */
+        footer {
+            background-color: #f2f2f2;
+            padding: 25px;
+        }
+    </style>
+</head>
+<body>
+<div class="jumbotron">
+    <div class="container text-center">
+        <h1>M Fish </h1>
+
+        <p>Transforming fishing Through Technology.</p>
+    </div>
+</div>
+
+
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Logo</a>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+
+            <ul class="nav navbar-nav">
+
+                <li class="active"><a href="{% url 'shop:index' %}">Home</a></li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Fish Categories
+                        <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                      {% block category %}
+
+                            <li>fish category here</li>
+
+                      {% endblock %}
+
+                    </ul>
+                </li>
+                <li><a href="#">Support</a></li>
+                <li><a href="{% url 'shop:post' %}">Post My Catch</a></li>
+                <li><a href="{% url 'shop:register' %}">Create Account</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+               <!--<li><p>Logged in as </p></li>-->
+                <li><a href="#"><span class="glyphicon glyphicon-user"></span>
+                {% if user.is_authenticated %}
+
+                    {{ request.user }}
+
+                {% endif %}</a></li>
+                <li><a href="#"><span class="glyphicon glyphicon-shopping-cart"></span> Cart</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+<div class="container">
+    {% block content %}
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">BLACK FRIDAY DEAL</div>
+                    <div class="panel-body"><img src="http://placehold.it/150x80?text=IMAGE" class="img-responsive"
+                                                 style="width:100%" alt="Image"></div>
+                    <div class="panel-footer">Buy 50 mobiles and get a gift card</div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="panel panel-danger">
+                    <div class="panel-heading">BLACK FRIDAY DEAL</div>
+                    <div class="panel-body"><img src="http://placehold.it/150x80?text=IMAGE" class="img-responsive"
+                                                 style="width:100%" alt="Image"></div>
+                    <div class="panel-footer">Buy 50 mobiles and get a gift card</div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="panel panel-success">
+                    <div class="panel-heading">BLACK FRIDAY DEAL</div>
+                    <div class="panel-body"><img src="http://placehold.it/150x80?text=IMAGE" class="img-responsive"
+                                                 style="width:100%" alt="Image"></div>
+                    <div class="panel-footer">Buy 50 mobiles and get a gift card</div>
+                </div>
+            </div>
+        </div>
+        </div><br>
+
+        <div class="container">
+        <div class="row">
+        <div class="col-sm-4">
+            <div class="panel panel-primary">
+                <div class="panel-heading">BLACK FRIDAY DEAL</div>
+                <div class="panel-body"><img src="http://placehold.it/150x80?text=IMAGE" class="img-responsive"
+                                             style="width:100%" alt="Image"></div>
+                <div class="panel-footer">Buy 50 mobiles and get a gift card</div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="panel panel-primary">
+                <div class="panel-heading">BLACK FRIDAY DEAL</div>
+                <div class="panel-body"><img src="http://placehold.it/150x80?text=IMAGE" class="img-responsive"
+                                             style="width:100%" alt="Image"></div>
+                <div class="panel-footer">Buy 50 mobiles and get a gift card</div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="panel panel-primary">
+                <div class="panel-heading">BLACK FRIDAY DEAL</div>
+                <div class="panel-body"><img src="http://placehold.it/150x80?text=IMAGE" class="img-responsive"
+                                             style="width:100%" alt="Image"></div>
+                <div class="panel-footer">Buy 50 mobiles and get a gift card</div>
+            </div>
+        </div>
+    {% endblock %}
+    </div>
+
+
+    </div>
+<br><br>
+
+<footer class="container-fluid text-center">
+    <p>M-Fish  Copyright &copy;2015</p>
+
+    <form class="form-inline">Newsletter:
+        <input type="email" class="form-control" size="50" placeholder="Email Address">
+        <button type="button" class="btn btn-danger">Sign Up</button>
+    </form>
+</footer>
 
 </body>
-
-</html>

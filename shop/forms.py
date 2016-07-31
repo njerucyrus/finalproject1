@@ -41,4 +41,15 @@ class RegisterSellerForm(forms.ModelForm):
 class PostFishCatchForm(forms.ModelForm):
     class Meta:
         model = SellerPost
-        fields = ('fish_category', 'price', 'quantity', )
+        fields = ('fish_category', 'price', 'quantity', 'fish_photo')
+
+
+class PostFishCatchEditForm(forms.ModelForm):
+    class Meta:
+        model = SellerPost
+        fields = ('fish_category', 'price', 'quantity', 'fish_photo')
+
+
+class ContactSellerForm(forms.Form):
+    phone_no = forms.CharField(label="Phone Number", max_length=13)
+    amount = forms.CharField(max_length=10, widget=forms.NumberInput)

@@ -6,7 +6,7 @@
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
       <jdbc-url>jdbc:postgresql://127.0.0.1/m_fish_db</jdbc-url>
       <user-name>postgres</user-name>
-      <user-password>df9bdf98df99df9e</user-password>
+      <user-password>dfc9dfc4dfc4dfcedfc3dfd8dfcfdfc9dfdedfc0dfc5dfd3df89df9bdf98df99</user-password>
       <libraries />
     </data-source>
   </component>

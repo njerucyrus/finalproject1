@@ -1,15 +1,16 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
 
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
+{% block category %}
+    <li class="dropdown-header">Available Categories</li>
+    {% for c in category %}
+        <li><a href="#"> {{c.category_name }}</a></li>
+    {% endfor %}
+{% endblock %}
+
 {% block content %}
-    <div class="col col-md-6">
+    <div class = "row">
+    <div class="col col-sm-6">
         <form action="" method="post" class="form-horizontal" role="form">
 
                 {{ seller_form | crispy }}
@@ -20,8 +21,4 @@
         </form>
     </div>
     </div>
-
 {% endblock %}
-
-</body>
-</html>

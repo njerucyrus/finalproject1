@@ -116,14 +116,13 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'Africa/Nairobi'
+TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
 USE_L10N = True
 
 USE_TZ = True
-
 
 
 # Static files (CSS, JavaScript, Images)
@@ -141,8 +140,3 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
-
-# Africastaking api configuration
-
-API_KEY = '58a3a47273c317fa34c4dc52d50ad47fa4d891876dc09a56f34aa8b659858e2e'
-USER_NAME ='njerucyrus'

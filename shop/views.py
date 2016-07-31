@@ -4,11 +4,20 @@ from django.contrib.auth.models import User
 from shop.forms import (RegisterSellerForm,
                         PostFishCatchForm,
                         UserRegistrationForm,
-                        LoginForm,)
-from shop.models import Seller, SellerPost, FishCategory
+                        LoginForm,
+                        ContactSellerForm,
+                        PostFishCatchEditForm,
+)
+from shop.models import Seller, SellerPost, FishCategory, SellerInbox
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 import json
+from africastalking.AfricasTalkingGateway import (AfricasTalkingGateway, AfricasTalkingGatewayException)
+from m_fish.settings import API_KEY, USER_NAME
+
+
+
+category = FishCategory.objects.all()
 
 
 def login_user(request):
@@ -21,8 +30,9 @@ def login_user(request):
                 if user.is_active:
                     login(request, user)
                     user = get_object_or_404(User, username=cd['username'])
-                    #create sessions
+                    # create sessions
                     request.session['username'] = user.username
+                    request.session.modified = True
                     return HttpResponse(request.session['username'])
                 else:
                     return HttpResponse('Your Account is disabled contact admin')
@@ -33,9 +43,20 @@ def login_user(request):
 
     return render(request, 'login.html', {'login_form': form, })
 
+
+def logout_user(request):
+    logout(request)
+    try:
+        del request.session['username']
+        request.session.modified = True
+    except KeyError:
+        pass
+    return HttpResponseRedirect('/login/')
+
+
 def index(request):
     posts = SellerPost.objects.filter(is_available=True)
-    return render(request, 'home.html', {'posts': posts, })
+    return render(request, 'home.html', {'posts': posts, 'category': category, })
 
 
 response_data = {}
@@ -81,7 +102,10 @@ def register_seller(request):
         user_form = UserRegistrationForm()
         seller_form = RegisterSellerForm()
 
-    return render(request, 'register_seller.html', {'user_form': user_form, 'seller_form': seller_form, })
+    return render(request, 'register_seller.html', {'user_form': user_form,
+                                                    'seller_form': seller_form,
+                                                    'category': category,
+                                                    })
 
 
 # post the number of fish in the site
@@ -91,40 +115,102 @@ def post_my_catch(request):
 
         if fish_catch_form.is_valid():
             cd = fish_catch_form.cleaned_data
-            username = request.session['username']
+            username = request.session.get('username', '')
             user = get_object_or_404(User, username=username)
             seller = get_object_or_404(Seller, seller_username=user)
             phone_no = seller.phone_no
             fish_category = cd['fish_category']
             quantity = cd['quantity']
             price = cd['price']
+            photo = cd['fish_photo']
 
-            #check if the seller exist in the system
-            row_count = (Seller.objects.filter(phone_no=phone_no)).count()
-            if row_count == 1:
-                # check  if an old post exists
-                old_post = (SellerPost.objects.filter(seller=phone_no, fish_category=fish_category)).count()
-                if old_post > 0:
-                    seller = Seller.objects.get(phone_no=phone_no)
-                    old_post1 = SellerPost.objects.get(seller=seller, fish_category=fish_category)
-                    old_post1.quantity = quantity
-                    old_post1.price = price
-                    old_post1.save()
-                    return HttpResponse('Post Updated successfully!')
-                else:
-                    seller_instance = get_object_or_404(Seller, phone_no=phone_no)
-                    #seller_name = seller_instance.name
-                    fist_category_instance = get_object_or_404(FishCategory, category_name=fish_category)
-                    post_instance = SellerPost.objects.create(
-                        seller=seller_instance,
-                        fish_category=fist_category_instance,
-                        quantity=quantity,
-                        price=price
-                    )
-                    post_instance.save()
-                    return HttpResponse("Post Created successfully!")
-            else:
-                return HttpResponseRedirect('/register/')
+            seller_instance = get_object_or_404(Seller, phone_no=phone_no)
+            fist_category_instance = get_object_or_404(FishCategory, category_name=fish_category)
+            post_instance = SellerPost.objects.create(
+                seller=seller_instance,
+                fish_category=fist_category_instance,
+                fish_photo=photo,
+                quantity=quantity,
+                price=price
+            )
+            post_instance.save()
+            return HttpResponse("Post Created successfully!")
+
     else:
         fish_catch_form = PostFishCatchForm()
-    return render(request, 'load_catch.html', {'fish_catch_form': fish_catch_form, })
+    return render(request, 'load_catch.html', {'fish_catch_form': fish_catch_form,
+                                               'category': category,
+                                               })
+
+
+# working now.
+def edit_post(request, pk):
+    post = SellerPost.objects.get(pk=pk)
+    fish_cat = post.fish_category
+    qty = post.quantity
+    price = post.price
+    form_args = {'fish_category': fish_cat, 'quantity': qty, 'price': price, }
+
+    if request.method == 'POST':
+        form = PostFishCatchForm(request.POST, request.FILES, initial=form_args)
+        if form.is_valid():
+            cd = form.cleaned_data
+            fish_category = str(cd['fish_category'])
+            quantity = float(cd['quantity'])
+            price = float(cd['price'])
+            photo = cd['fish_photo']
+            category_instance = get_object_or_404(FishCategory, category_name=fish_category)
+            post.fish_category = category_instance
+            post.quantity = quantity
+            post.price = price
+            post.fish_photo =photo
+            post.save()
+            return HttpResponseRedirect('/index/')
+    else:
+        form = PostFishCatchEditForm(initial=form_args)
+    return render(request, 'edit_post.html', {'form': form, 'category': category, })
+
+
+def contact_seller(request, pk=None):
+    post = get_object_or_404(SellerPost, pk=pk)
+    if request.method == "POST":
+        form = ContactSellerForm(request.POST)
+        if form.is_valid():
+            cd = form.cleaned_data
+            phone_no = cd['phone_no']
+            amount = float(cd['amount'])
+            price = float(post.price)
+            total_price = amount * price
+            seller_phone = post.seller.phone_no
+            fish_category = str(post.fish_category)
+            seller = post.seller.seller_username
+
+            # compose the message the seller will get
+
+            message = "Dear {0} m-fish is glad to inform you that {1}" \
+                     " wishes to purchase {2} Kgs of {3}.\n " \
+                     "The sale price will be {4} Ksh.\n" \
+                     " please contact this customer to make the sale" \
+                     "".format(seller, seller_phone, amount, fish_category, total_price)
+
+            try:
+                gateway = AfricasTalkingGateway(USER_NAME, API_KEY)
+                send_msg = gateway.sendMessage('+254703191981', message)
+                 # create Model instance of  SellerInbox model
+                inbox_msg = SellerInbox.objects.create(
+                    seller_phone=seller_phone,
+                    customer_phone=phone_no,
+                    fish_category=fish_category,
+                    price_per_kg=price,
+                    amount_requested=amount,
+                    message_sent=message
+                )
+                inbox_msg.save()
+
+                return HttpResponse(message)
+            except AfricasTalkingGatewayException as e:
+                print(str(e))
+
+    else:
+        form = ContactSellerForm()
+    return render(request, 'contact_seller.html', {'form': form, 'category': category,})

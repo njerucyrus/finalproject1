@@ -1,6 +1,15 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
 
+{% block category %}
+
+    <li class="dropdown-header">Available Categories</li>
+    {% for c in category %}
+        <li><a href="#"> {{c.category_name }}</a></li>
+    {% endfor %}
+{% endblock %}
+
+
 {% block content %}
     <form action="" method="post" enctype="multipart/form-data">
     {% csrf_token %}
