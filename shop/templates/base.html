@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Bootstrap Core CSS -->
+    <link href="{% static 'css/bootstrap.min.css' %} " rel="stylesheet">
+    <title>{% block title %} Base File {% endblock %}</title>
+
+<style>
+    .bg-1 {
+    background-color: #1abc9c; /* Green */
+    color: #000000;
+}
+</style>
+</head>
+<body >
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">M FISH</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="active"><a href="{% url 'shop:index' %}">Home</a></li>
+      <li><a href="#">About</a></li>
+      <li><a href="#">Categories</a></li>
+      <li><a href="{% url 'shop:register' %}">Sign Up</a></li>
+      <li><a href="#">Contact</a></li>
+    </ul>
+    </div>
+</nav>
+
+<div class="container ">
+<div class="col col-md-3">
+
+</div>
+{% block content %}
+<div class ="jumbotron">
+
+ </div>
+{% endblock %}
+
+
+<div class ="col col-md-3">
+</div>
+</div>
+
+
+
+<!-- jQuery -->
+    <script src="{% static 'js/jquery.js' %}}"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="{%static 'js/bootstrap.min.js'  %} "></script>
+
+</body>
+
+</html>

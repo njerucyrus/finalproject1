@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="row">
+        <div class="container">
+
+                {% for fish in posts %}
+                    <div class="col- col-md-3">
+                        <div class="slide-image">
+                            <img src="" alt="{{ fish.fish_category }}"/>
+                            Quantity :{{ fish.quantity }} Kgs Price {{ fish.price }}
+                            Seller {{ fish.name }}
+                        </div>
+                    </div>
+                {% endfor %}
+
+        </div>
+    </div>
+
+{% endblock %}

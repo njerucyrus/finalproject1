@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <form action="" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ fish_catch_form | crispy }}
+    <input type="submit" value="Submit" class="btn btn-warning">
+    </form>
+{% endblock %}
