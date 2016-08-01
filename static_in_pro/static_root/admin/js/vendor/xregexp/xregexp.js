@@ -644,7 +644,7 @@ XRegExp = XRegExp || (function (undef) {
  * // -> ['2', '4', '56']
  *
  * // Passing forward and returning specific backreferences
- * html = '<a href="http://xregexp.com/api/">XRegExp</a>\
+ * html = '<a href="http://xregexp.com/v1/">XRegExp</a>\
  *         <a href="http://www.google.com/">Google</a>';
  * XRegExp.matchChain(html, [
  *   {regex: /<a href="([^"]+)">/i, backref: 1},
@@ -1270,7 +1270,7 @@ XRegExp = XRegExp || (function (undef) {
 /***** unicode-base.js *****/
 
 /*!
- * XRegExp Unicode Base v1.0.0
+ * XRegExp Unicode Base v1.0
  * (c) 2008-2012 Steven Levithan <http://xregexp.com/>
  * MIT License
  * Uses Unicode 6.1 <http://unicode.org/>
@@ -1817,7 +1817,7 @@ XRegExp = XRegExp || (function (undef) {
 /***** unicode-properties.js *****/
 
 /*!
- * XRegExp Unicode Properties v1.0.0
+ * XRegExp Unicode Properties v1.0
  * (c) 2012 Steven Levithan <http://xregexp.com/>
  * MIT License
  * Uses Unicode 6.1 <http://unicode.org/>
@@ -2192,7 +2192,7 @@ XRegExp = XRegExp || (function (undef) {
 /***** prototypes.js *****/
 
 /*!
- * XRegExp Prototype Methods v1.0.0
+ * XRegExp Prototype Methods v1.0
  * (c) 2012 Steven Levithan <http://xregexp.com/>
  * MIT License
  */

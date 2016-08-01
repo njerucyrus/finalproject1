@@ -40,7 +40,7 @@ function doAjaxSubmit(e) {
             }
             // Use the FormData API and allow the content type to be set automatically,
             // so it includes the boundary string.
-            // See https://developer.mozilla.org/en-US/docs/Web/API/FormData/Using_FormData_Objects
+            // See https://v1.mozilla.org/en-US/docs/Web/API/FormData/Using_FormData_Objects
             contentType = false;
             data = new FormData(form[0]);
         } else {

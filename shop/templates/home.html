@@ -29,7 +29,7 @@
                                 </div>
                             </div>
                             <div class="panel-footer">Price {{ fish.price }} Ksh @ 1Kg<br>
-                                Post by: {{ fish.seller.seller_username.username }} &nbsp;&nbsp;
+                                Post by: {{ fish.seller.user.username }} &nbsp;&nbsp;
 
                                 <a href="{% url 'shop:edit_post' pk=fish.pk %}"><span
                                         class="glyphicon glyphicon-pencil">Edit</span></a>

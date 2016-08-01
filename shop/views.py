@@ -16,7 +16,6 @@ from africastalking.AfricasTalkingGateway import (AfricasTalkingGateway, Africas
 from m_fish.settings import API_KEY, USER_NAME
 
 
-
 category = FishCategory.objects.all()
 
 
@@ -84,7 +83,7 @@ def register_seller(request):
                 location = cd['location']
                 # create a new seller object
                 seller_obj = Seller.objects.create(
-                    seller_username=new_user,
+                    user=new_user,
                     phone_no=phone_no,
                     location=location
                 )
@@ -105,7 +104,7 @@ def register_seller(request):
     return render(request, 'register_seller.html', {'user_form': user_form,
                                                     'seller_form': seller_form,
                                                     'category': category,
-                                                    })
+    })
 
 
 # post the number of fish in the site
@@ -117,7 +116,7 @@ def post_my_catch(request):
             cd = fish_catch_form.cleaned_data
             username = request.session.get('username', '')
             user = get_object_or_404(User, username=username)
-            seller = get_object_or_404(Seller, seller_username=user)
+            seller = get_object_or_404(Seller, user=user)
             phone_no = seller.phone_no
             fish_category = cd['fish_category']
             quantity = cd['quantity']
@@ -139,8 +138,7 @@ def post_my_catch(request):
     else:
         fish_catch_form = PostFishCatchForm()
     return render(request, 'load_catch.html', {'fish_catch_form': fish_catch_form,
-                                               'category': category,
-                                               })
+                                               'category': category, })
 
 
 # working now.
@@ -163,7 +161,7 @@ def edit_post(request, pk):
             post.fish_category = category_instance
             post.quantity = quantity
             post.price = price
-            post.fish_photo =photo
+            post.fish_photo = photo
             post.save()
             return HttpResponseRedirect('/index/')
     else:
@@ -183,34 +181,29 @@ def contact_seller(request, pk=None):
             total_price = amount * price
             seller_phone = post.seller.phone_no
             fish_category = str(post.fish_category)
-            seller = post.seller.seller_username
+            seller = post.seller.user
 
             # compose the message the seller will get
 
             message = "Dear {0} m-fish is glad to inform you that {1}" \
-                     " wishes to purchase {2} Kgs of {3}.\n " \
-                     "The sale price will be {4} Ksh.\n" \
-                     " please contact this customer to make the sale" \
-                     "".format(seller, seller_phone, amount, fish_category, total_price)
-
-            try:
-                gateway = AfricasTalkingGateway(USER_NAME, API_KEY)
-                send_msg = gateway.sendMessage('+254703191981', message)
-                 # create Model instance of  SellerInbox model
-                inbox_msg = SellerInbox.objects.create(
-                    seller_phone=seller_phone,
-                    customer_phone=phone_no,
-                    fish_category=fish_category,
-                    price_per_kg=price,
-                    amount_requested=amount,
-                    message_sent=message
-                )
-                inbox_msg.save()
-
-                return HttpResponse(message)
-            except AfricasTalkingGatewayException as e:
-                print(str(e))
+                      " wishes to purchase {2} Kgs of {3}.\n " \
+                      "The sale price will be {4} Ksh.\n" \
+                      " please contact this customer to make the sale" \
+                      "".format(seller, phone_no, amount, fish_category, total_price)
+            # create Model instance of  SellerInbox model
+            inbox_msg = SellerInbox.objects.create(
+                seller_phone=seller_phone,
+                customer_phone=phone_no,
+                fish_category=fish_category,
+                price_per_kg=price,
+                amount_requested=amount,
+                message_sent=message
+            )
+            inbox_msg.save()
+            post.seller.times_contacted += 1
+            post.save()
+            return HttpResponse(message)
 
     else:
         form = ContactSellerForm()
-    return render(request, 'contact_seller.html', {'form': form, 'category': category,})
+    return render(request, 'contact_seller.html', {'form': form, 'category': category, })

@@ -21,9 +21,9 @@ from django.conf.urls.static import static
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^', include('shop.urls', namespace='shop')),
+    url(r'^api/', include('shop.api.v1.urls', namespace='v1')),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
 admin.site.site_header = 'M FiSH ADMIN PANEL'

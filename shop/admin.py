@@ -1,7 +1,6 @@
 from django.contrib import admin
 from shop.models import(FishCategory,
                         Seller,
-                        Contact,
                         SellerPost,
                         SellerInbox,
                         Newsletter,
@@ -18,7 +17,7 @@ admin.site.register(FishCategory, FishAdmin)
 
 
 class SellerAdmin(admin.ModelAdmin):
-    list_display = ['seller_username', 'phone_no', 'location']
+    list_display = ['user', 'phone_no', 'location', 'times_contacted']
 
     class Meta:
         model = Seller
@@ -38,14 +37,6 @@ class SellerPostAdmin(admin.ModelAdmin):
     class Meta:
         model = SellerPost
 admin.site.register(SellerPost, SellerPostAdmin)
-
-
-class ContactAdmin(admin.ModelAdmin):
-    list_display = ['phone_number', 'full_name', 'location']
-
-    class Meta:
-        model = Contact
-admin.site.register(Contact, ContactAdmin)
 
 
 class SellerInboxAdmin(admin.ModelAdmin):

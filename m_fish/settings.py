@@ -80,16 +80,25 @@ WSGI_APPLICATION = 'm_fish.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'm_fish_db',
-        'USER': 'postgres',
-        'PASSWORD': 'cnndirectjoy#123',
-        'HOST': 'localhost',
-        'PORT': '',
-    }
+     'default': {
+         'ENGINE': 'django.db.backends.sqlite3',
+         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+     }
 }
+
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'm_fish_db',
+#         'USER': 'postgres',
+#         'PASSWORD': 'cnndirectjoy#123',
+#         'HOST': 'localhost',
+#         'PORT': '',
+#     }
+# }
 
 
 # Password validation
@@ -142,7 +151,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
-# Africastaking api configuration
+# Africastaking v1 configuration
 
 API_KEY = '58a3a47273c317fa34c4dc52d50ad47fa4d891876dc09a56f34aa8b659858e2e'
 USER_NAME ='njerucyrus'

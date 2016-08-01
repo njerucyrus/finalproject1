@@ -28,8 +28,8 @@ class FishCategory(models.Model):
 
 
 class Seller(models.Model):
-    seller_username = models.OneToOneField(User)
-    phone_no = models.CharField(max_length=13, primary_key=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    phone_no = models.CharField(max_length=13, unique=True)
     location = models.CharField(max_length=100, blank=True, default='')
     times_contacted = models.PositiveIntegerField(default=0)
 
@@ -42,8 +42,8 @@ class Seller(models.Model):
 
 # model to hold the data  of items a seller has
 class SellerPost(models.Model):
-    seller = models.ForeignKey(Seller)
-    fish_category = models.ForeignKey(FishCategory, related_name='fish')
+    seller = models.ForeignKey(Seller, on_delete=models.CASCADE)
+    fish_category = models.ForeignKey(FishCategory, related_name='fish', on_delete=models.CASCADE)
     fish_photo = models.ImageField(upload_to='assets/img', blank=True, null=True)
     quantity = models.DecimalField(max_digits=10, decimal_places=2, default=0.00, null=True)
     price = models.DecimalField("Price per Kg", max_digits=10, decimal_places=2, default=0000.00, null=True)
@@ -56,8 +56,7 @@ class SellerPost(models.Model):
         try:
             this = SellerPost.objects.get(id=self.id)
             if this.fish_photo != self.fish_photo:
-                this.image.delete(save=False)
-
+                this.fish_photo.delete(save=False)
         except Exception as e:
             pass  # when new photo then we do nothing, normal case
         super(SellerPost, self).save(*args, **kwargs)
@@ -69,15 +68,6 @@ class Meta:
 
 def __str__(self):
     return 'post for '.format(self.seller.phone_no)
-
-
-class Contact(models.Model):
-    phone_number = models.CharField(max_length=13)
-    full_name = models.CharField(max_length=100, blank=True, default='Seller')
-    location = models.CharField(max_length=100, blank=True, default='Kisumu')
-
-    def __str__(self):
-        return self.phone_number
 
 
 class SellerInbox(models.Model):
