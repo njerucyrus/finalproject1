@@ -31,7 +31,6 @@ class FishCategory(models.Model):
 
 # represent fisherman
 
-
 class Seller(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     phone_no = models.CharField(max_length=13, unique=True)
@@ -42,6 +41,9 @@ class Seller(models.Model):
         verbose_name_plural = 'Sellers'
 
     def __str__(self):  # should be __unicode__(self): in python 2.x.x
+        return self.phone_no
+
+    def __unicode__(self):
         return self.phone_no
 
 
