@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
 
 # Create your models here.
 
@@ -20,8 +21,12 @@ class FishCategory(models.Model):
     class Meta:
         verbose_name_plural = 'Fish'
 
+    def get_absolute_url(self):
+        return reverse('shop:post_list_by_category', args=[self.slug])
+
     def __str__(self):
         return self.category_name
+
 
 
 # represent fisherman
@@ -50,6 +55,11 @@ class SellerPost(models.Model):
     available_amt = models.DecimalField(max_digits=10, decimal_places=2, default=0000.00, null=True)
     is_available = models.BooleanField(default=True)
     date_posted = models.DateTimeField(auto_now_add=True)
+
+
+    def get_absolute_url(self):
+        return reverse('', kwargs=[''])
+
 
     def save(self, *args, **kwargs):
         # delete old file when replacing by updating the file

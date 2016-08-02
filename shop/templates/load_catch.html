@@ -5,15 +5,22 @@
 
     <li class="dropdown-header">Available Categories</li>
     {% for c in category %}
-        <li><a href="#"> {{c.category_name }}</a></li>
+        <li><a href="#"> {{ c.category_name }}</a></li>
     {% endfor %}
 {% endblock %}
 
 
 {% block content %}
-    <form action="" method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ fish_catch_form | crispy }}
-    <input type="submit" value="Submit" class="btn btn-warning">
-    </form>
+    <div class="container">
+        <div class="row">
+            <div class="col col-md-3"></div>
+            <div class="col col-md-6">
+                <form action="" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ fish_catch_form | crispy }}
+                    <input type="submit" value="Submit" class="btn btn-warning">
+                </form>
+            </div>
+        </div>
+    </div>
 {% endblock %}

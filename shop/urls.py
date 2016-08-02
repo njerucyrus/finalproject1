@@ -10,5 +10,6 @@ urlpatterns = [
     url(r'^post/$', views.post_my_catch, name='post'),
     url(r'^post/edit/(?P<pk>\d+)/$', views.edit_post, name='edit_post'),
     url(r'^post/contact/(?P<pk>\d+)/$', views.contact_seller, name='contact_seller'),
+    url(r'^posts/(?P<category_slug>[-\w]+)/$', views.post_list, name='post_list_by_category'),
 
 ]

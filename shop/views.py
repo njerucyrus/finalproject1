@@ -12,7 +12,7 @@ from shop.models import Seller, SellerPost, FishCategory, SellerInbox
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 import json
-from africastalking.AfricasTalkingGateway import (AfricasTalkingGateway, AfricasTalkingGatewayException)
+
 from m_fish.settings import API_KEY, USER_NAME
 
 
@@ -32,7 +32,7 @@ def login_user(request):
                     # create sessions
                     request.session['username'] = user.username
                     request.session.modified = True
-                    return HttpResponse(request.session['username'])
+                    return HttpResponseRedirect('/index/')
                 else:
                     return HttpResponse('Your Account is disabled contact admin')
             else:
@@ -53,14 +53,21 @@ def logout_user(request):
     return HttpResponseRedirect('/login/')
 
 
-def index(request):
+def index(request, category_slug=None):
+    category = None
+    categories = FishCategory.objects.all()
     posts = SellerPost.objects.filter(is_available=True)
-    return render(request, 'home.html', {'posts': posts, 'category': category, })
 
+    if category_slug:
+        category = get_object_or_404(FishCategory, slug=category_slug)
+        posts = posts.filter(fish_category=category)
+
+    return render(request, 'home.html',
+                  {'category': category,
+                   'categories': categories,
+                   'posts': posts, })
 
 response_data = {}
-
-
 def register_seller(request):
     if request.method == 'POST':
 
@@ -207,3 +214,17 @@ def contact_seller(request, pk=None):
     else:
         form = ContactSellerForm()
     return render(request, 'contact_seller.html', {'form': form, 'category': category, })
+
+
+def post_list(request, category_slug=None):
+    category = None
+    categories = FishCategory.objects.all()
+    posts = SellerPost.objects.filter(is_available=True)
+
+    if category_slug:
+        category = get_object_or_404(FishCategory, slug=category_slug)
+        posts = posts.filter(fish_category=category)
+    return render(request, 'post_list.html',
+                  {'category': category,
+                   'categories': categories,
+                   'posts': posts, })
