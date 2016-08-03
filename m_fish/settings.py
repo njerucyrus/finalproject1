@@ -91,12 +91,12 @@ DATABASES = {
 
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'ENGINE': 'django.db.backends.mysql',
 #         'NAME': 'm_fish_db',
-#         'USER': 'postgres',
-#         'PASSWORD': 'cnndirectjoy#123',
+#         'USER': 'root',
+#         'PASSWORD': '',
 #         'HOST': 'localhost',
-#         'PORT': '',
+#         'PORT': '3306',
 #     }
 # }
 
@@ -150,6 +150,7 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
+
 
 # Africastaking v1 configuration
 

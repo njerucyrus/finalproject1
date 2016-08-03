@@ -28,9 +28,7 @@ class FishCategory(models.Model):
         return self.category_name
 
 
-
 # represent fisherman
-
 class Seller(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     phone_no = models.CharField(max_length=13, unique=True)
@@ -58,10 +56,8 @@ class SellerPost(models.Model):
     is_available = models.BooleanField(default=True)
     date_posted = models.DateTimeField(auto_now_add=True)
 
-
     def get_absolute_url(self):
-        return reverse('', kwargs=[''])
-
+        return reverse('shop:post_detail', args=[self.pk])
 
     def save(self, *args, **kwargs):
         # delete old file when replacing by updating the file

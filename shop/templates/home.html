@@ -9,7 +9,7 @@
 
     <li class="dropdown-header">Available Categories</li>
     {% for c in categories %}
-        <li><a href="#"> {{ c.category_name }}</a></li>
+        <li><a href="{{ c.get_absolute_url }}"> {{ c.category_name }}</a></li>
     {% endfor %}
 
 {% endblock %}
@@ -25,7 +25,7 @@
                             <div class="panel-heading">{{ fish.fish_category }}</div>
                             <div class="panel-body">
                                 <div class="thumbnail">
-                                    <img src="{{ fish.fish_photo.url }} " class="img-responsive img-rounded">
+                                   <img src="{{ fish.fish_photo.url }} " class="img-responsive img-rounded">
                                 </div>
                             </div>
                             <div class="panel-footer">Price {{ fish.price }} Ksh @ 1Kg<br>

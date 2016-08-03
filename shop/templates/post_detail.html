@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block category %}
+
+{% endblock %}
+
+
+ {% block content %}
+    <div class="col-col-md-12">
+                    <div class="col-sm-3">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">{{ post.fish_category }}</div>
+                            <div class="panel-body">
+                                <div class="thumbnail">
+                                    <img src="{{ post.fish_photo.url }} " class="img-responsive img-rounded">
+                                </div>
+                            </div>
+                            <div class="panel-footer">Price {{ fish.price }} Ksh @ 1Kg<br>
+                                Post by: {{ post.seller.user.username }} &nbsp;&nbsp;
+                                Available Amount:{{post.available_amt }} &nbsp;&nbsp;
+
+                                <a href="{% url 'shop:contact_seller' pk=fish.pk %}"><span
+                                        class="glyphicon glyphicon-envelope"></span></a>
+
+                            </div>
+                        </div>
+
+                    </div>
+            </div>
+{% endblock %}

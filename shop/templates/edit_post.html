@@ -4,8 +4,8 @@
 {% block category %}
 
     <li class="dropdown-header">Available Categories</li>
-    {% for c in category %}
-        <li><a href="#"> {{c.category_name }}</a></li>
+    {% for c in categories %}
+        <li><a href="{{ c.get_absolute_url }}"> {{ c.category_name }}</a></li>
     {% endfor %}
 
 {% endblock %}

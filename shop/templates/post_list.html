@@ -9,3 +9,42 @@
 {% endblock %}
 
 
+{% block content %}
+    <div class="container">
+
+        <div class="row">
+
+            <div class="col-col-md-12">
+                {% for fish in posts %}
+                    <div class="col-sm-3">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">{{ fish.fish_category }}</div>
+                            <div class="panel-body">
+                                <div class="thumbnail">
+                                    <img src="{{ fish.fish_photo.url }} " class="img-responsive img-rounded">
+                                </div>
+                            </div>
+                            <div class="panel-footer">Price {{ fish.price }} Ksh @ 1Kg<br>
+                                Post by: {{ fish.seller.user.username }} &nbsp;&nbsp;
+
+                                <a href="{% url 'shop:edit_post' pk=fish.pk %}"><span
+                                        class="glyphicon glyphicon-pencil">Edit</span></a>
+                                &nbsp;&nbsp;
+                                <a href="{% url 'shop:contact_seller' pk=fish.pk %}"><span
+                                        class="glyphicon glyphicon-envelope"></span></a>
+
+                            </div>
+                        </div>
+
+                    </div>
+                {% endfor %}
+
+            </div>
+        </div>
+    </div> <br>
+
+{% endblock %}
+
+
+
+

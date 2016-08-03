@@ -11,12 +11,13 @@ from shop.forms import (RegisterSellerForm,
 from shop.models import Seller, SellerPost, FishCategory, SellerInbox
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
+from django.db import transaction
 import json
 
 from m_fish.settings import API_KEY, USER_NAME
 
 
-category = FishCategory.objects.all()
+categories = FishCategory.objects.all()
 
 
 def login_user(request):
@@ -32,14 +33,15 @@ def login_user(request):
                     # create sessions
                     request.session['username'] = user.username
                     request.session.modified = True
-                    return HttpResponseRedirect('/index/')
+                    return HttpResponseRedirect('/')
                 else:
                     return HttpResponse('Your Account is disabled contact admin')
             else:
-                return HttpResponse('invalid username/password')
+                message = "invalid username/password "
+                form = LoginForm()
+            return render(request, 'login.html', {'message': message, 'login_form': form, })
     else:
         form = LoginForm()
-
     return render(request, 'login.html', {'login_form': form, })
 
 
@@ -53,27 +55,24 @@ def logout_user(request):
     return HttpResponseRedirect('/login/')
 
 
-def index(request, category_slug=None):
-    category = None
+def index(request):
     categories = FishCategory.objects.all()
     posts = SellerPost.objects.filter(is_available=True)
 
-    if category_slug:
-        category = get_object_or_404(FishCategory, slug=category_slug)
-        posts = posts.filter(fish_category=category)
-
     return render(request, 'home.html',
-                  {'category': category,
-                   'categories': categories,
+                  {'categories': categories,
                    'posts': posts, })
 
 response_data = {}
+
+
+#@transaction.atomic
 def register_seller(request):
     if request.method == 'POST':
 
         user_form = UserRegistrationForm(request.POST)
         seller_form = RegisterSellerForm(request.POST)
-
+        print('am here')
         if user_form.is_valid() and seller_form.is_valid():
             try:
                 new_user = user_form.save(commit=False)
@@ -110,7 +109,7 @@ def register_seller(request):
 
     return render(request, 'register_seller.html', {'user_form': user_form,
                                                     'seller_form': seller_form,
-                                                    'category': category,
+                                                    'categories': categories,
     })
 
 
@@ -140,12 +139,12 @@ def post_my_catch(request):
                 price=price
             )
             post_instance.save()
-            return HttpResponse("Post Created successfully!")
+            return HttpResponseRedirect("/")
 
     else:
         fish_catch_form = PostFishCatchForm()
     return render(request, 'load_catch.html', {'fish_catch_form': fish_catch_form,
-                                               'category': category, })
+                                               'categories': categories, })
 
 
 # working now.
@@ -170,10 +169,10 @@ def edit_post(request, pk):
             post.price = price
             post.fish_photo = photo
             post.save()
-            return HttpResponseRedirect('/index/')
+            return HttpResponseRedirect('/')
     else:
         form = PostFishCatchEditForm(initial=form_args)
-    return render(request, 'edit_post.html', {'form': form, 'category': category, })
+    return render(request, 'edit_post.html', {'form': form, 'categories': categories, })
 
 
 def contact_seller(request, pk=None):
@@ -213,18 +212,23 @@ def contact_seller(request, pk=None):
 
     else:
         form = ContactSellerForm()
-    return render(request, 'contact_seller.html', {'form': form, 'category': category, })
+    return render(request, 'contact_seller.html', {'form': form, 'categories': categories, })
 
 
 def post_list(request, category_slug=None):
     category = None
-    categories = FishCategory.objects.all()
     posts = SellerPost.objects.filter(is_available=True)
-
     if category_slug:
         category = get_object_or_404(FishCategory, slug=category_slug)
         posts = posts.filter(fish_category=category)
+
     return render(request, 'post_list.html',
                   {'category': category,
                    'categories': categories,
                    'posts': posts, })
+
+
+def post_detail(request, pk):
+    post = SellerPost.objects.get(pk=pk)
+    return render(request, 'post_detail.html', {'post': post, 'categories': categories, })
+

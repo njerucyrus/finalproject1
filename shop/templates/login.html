@@ -16,19 +16,24 @@
     <!-- Bootstrap Core JavaScript -->
     <script src="{% static 'js/bootstrap.min.js' %} "></script>
     <!--end of my local -->
- <style>
-     .block{
-         allign:center;
-     }
- </style>
+    <style>
+        .block {
+            allign: center;
+        }
+    </style>
 
 </head>
 <body>
 <div class="container">
     <div class="jumbotron">
         <div class="row">
-            <div class="col col-md-3"></div>
+            <div class="col col-md-3">
+
+            </div>
             <div class="allign col col-md-6">
+                {% if message %}
+                    <div class="alert alert-danger" role="alert">{{ message }}</div>
+                {% endif %}
                 <form method="post" action="{#% url 'shop:index' %#}">
                     {{ login_form | crispy }}
                     {% csrf_token %}
