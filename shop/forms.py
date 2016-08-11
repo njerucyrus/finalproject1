@@ -1,5 +1,5 @@
 from django import forms
-from shop.models import Seller, SellerPost
+from shop.models import Seller, SellerPost, ContactUs
 from django.contrib.auth.models import User
 
 
@@ -53,3 +53,9 @@ class PostFishCatchEditForm(forms.ModelForm):
 class ContactSellerForm(forms.Form):
     phone_no = forms.CharField(label="Phone Number", max_length=13)
     amount = forms.CharField(max_length=10, widget=forms.NumberInput)
+
+
+class ContactUsForm(forms.ModelForm):
+    class Meta:
+        model = ContactUs
+        fields = '__all__'

@@ -7,8 +7,15 @@ from shop.forms import (RegisterSellerForm,
                         LoginForm,
                         ContactSellerForm,
                         PostFishCatchEditForm,
+                        ContactUsForm,
 )
-from shop.models import Seller, SellerPost, FishCategory, SellerInbox
+from shop.models import (Seller,
+                         SellerPost,
+                         FishCategory,
+                         SellerInbox,
+                         Newsletter,
+                        ContactUs,
+)
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.db import transaction
@@ -18,7 +25,6 @@ from m_fish.settings import API_KEY, USER_NAME
 
 
 categories = FishCategory.objects.all()
-
 
 def login_user(request):
     if request.method == 'POST':
@@ -66,7 +72,7 @@ def index(request):
 response_data = {}
 
 
-#@transaction.atomic
+@transaction.atomic
 def register_seller(request):
     if request.method == 'POST':
 
@@ -232,3 +238,26 @@ def post_detail(request, pk):
     post = SellerPost.objects.get(pk=pk)
     return render(request, 'post_detail.html', {'post': post, 'categories': categories, })
 
+
+def newsletter_signup(request):
+    if request.method == 'POST':
+        email = request.POST.get('email', '')
+
+        newsletter_obj = Newsletter()
+        newsletter_obj.email = email
+        newsletter_obj.save()
+        message = 'You have successfully subscribed to M-Fish newsletter. Thank you.'
+        return render(request, 'newsletter.html', {'message':message})
+    return render(request, 'newsletter.html', {})
+
+
+def contact_us(request):
+    if request.method == 'POST':
+        form = ContactUsForm(request.POST)
+        if form.is_valid():
+            form.save()
+            message = "Thankyou for communicating with mfish your message was received. we are working on your issue"
+            return render(request, 'contactus.html', {'message': message})
+    else:
+        form = ContactUsForm()
+    return render(request, 'contactus.html', {'form':form})

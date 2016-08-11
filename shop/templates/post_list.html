@@ -15,6 +15,7 @@
         <div class="row">
 
             <div class="col-col-md-12">
+               {%  if posts %}
                 {% for fish in posts %}
                     <div class="col-sm-3">
                         <div class="panel panel-primary">
@@ -38,11 +39,14 @@
 
                     </div>
                 {% endfor %}
+                {% else %}
+                <h1> Oohps No post available for this category!<h1>
+                {% endif %}
+
 
             </div>
         </div>
     </div> <br>
-
 {% endblock %}
 
 

@@ -68,26 +68,26 @@
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">Fish Categories
                         <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                      {% block category %}
+                        {% block category %}
 
                             <li>No category available!</li>
 
-                      {% endblock %}
+                        {% endblock %}
 
                     </ul>
                 </li>
-                <li><a href="#">Support</a></li>
+                <li><a href="{% url 'shop:contact_us' %}">Support</a></li>
                 <li><a href="{% url 'shop:post' %}">Post My Catch</a></li>
                 <li><a href="{% url 'shop:register' %}">Create Account</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-               <!--<li><p>Logged in as </p></li>-->
+                <!--<li><p>Logged in as </p></li>-->
                 <li><a href="#"><span class="glyphicon glyphicon-user"></span>
-                {% if user.is_authenticated %}
+                    {% if user.is_authenticated %}
 
-                    {{ request.user }}
+                        {{ request.user }}
 
-                {% endif %}</a></li>
+                    {% endif %}</a></li>
                 <li><a href="{% url 'shop:logout' %}"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
             </ul>
         </div>
@@ -97,74 +97,20 @@
 
 <div class="container">
     {% block content %}
-        <div class="row">
-            <div class="col-sm-4">
-                <div class="panel panel-primary">
-                    <div class="panel-heading">BLACK FRIDAY DEAL</div>
-                    <div class="panel-body"><img src="http://placehold.it/150x80?text=IMAGE" class="img-responsive"
-                                                 style="width:100%" alt="Image"></div>
-                    <div class="panel-footer">Buy 50 mobiles and get a gift card</div>
-                </div>
-            </div>
-            <div class="col-sm-4">
-                <div class="panel panel-danger">
-                    <div class="panel-heading">BLACK FRIDAY DEAL</div>
-                    <div class="panel-body"><img src="http://placehold.it/150x80?text=IMAGE" class="img-responsive"
-                                                 style="width:100%" alt="Image"></div>
-                    <div class="panel-footer">Buy 50 mobiles and get a gift card</div>
-                </div>
-            </div>
-            <div class="col-sm-4">
-                <div class="panel panel-success">
-                    <div class="panel-heading">BLACK FRIDAY DEAL</div>
-                    <div class="panel-body"><img src="http://placehold.it/150x80?text=IMAGE" class="img-responsive"
-                                                 style="width:100%" alt="Image"></div>
-                    <div class="panel-footer">Buy 50 mobiles and get a gift card</div>
-                </div>
-            </div>
-        </div>
-        </div><br>
 
-        <div class="container">
-        <div class="row">
-        <div class="col-sm-4">
-            <div class="panel panel-primary">
-                <div class="panel-heading">BLACK FRIDAY DEAL</div>
-                <div class="panel-body"><img src="http://placehold.it/150x80?text=IMAGE" class="img-responsive"
-                                             style="width:100%" alt="Image"></div>
-                <div class="panel-footer">Buy 50 mobiles and get a gift card</div>
-            </div>
-        </div>
-        <div class="col-sm-4">
-            <div class="panel panel-primary">
-                <div class="panel-heading">BLACK FRIDAY DEAL</div>
-                <div class="panel-body"><img src="http://placehold.it/150x80?text=IMAGE" class="img-responsive"
-                                             style="width:100%" alt="Image"></div>
-                <div class="panel-footer">Buy 50 mobiles and get a gift card</div>
-            </div>
-        </div>
-        <div class="col-sm-4">
-            <div class="panel panel-primary">
-                <div class="panel-heading">BLACK FRIDAY DEAL</div>
-                <div class="panel-body"><img src="http://placehold.it/150x80?text=IMAGE" class="img-responsive"
-                                             style="width:100%" alt="Image"></div>
-                <div class="panel-footer">Buy 50 mobiles and get a gift card</div>
-            </div>
-        </div>
+
+
     {% endblock %}
-    </div>
-
-
-    </div>
-<br><br>
-
+</div>
 <footer class="container-fluid text-center">
-    <p>M-Fish  Copyright &copy;2015</p>
-
-    <form class="form-inline">Newsletter:
-        <input type="email" class="form-control" size="50" placeholder="Email Address">
-        <button type="button" class="btn btn-danger">Sign Up</button>
-    </form>
+    <p>M-Fish Copyright &copy;2016</p>
+{#    {% block newsletter %}#}
+        <form class="form-inline" method="post" action="{% url 'shop:newsletter' %}">Newsletter:
+            {% csrf_token %}
+            <input type="email" class="form-control" size="50" placeholder="Email Address" name="email">
+            <input type="submit" value="Subscribe" class="btn btn-danger">
+        </form>
+{#    {% endblock %}#}
 </footer>
 
 </body>

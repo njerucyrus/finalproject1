@@ -5,13 +5,34 @@ from django.core.urlresolvers import reverse
 # Create your models here.
 
 FISH_CATEGORY = (
-    ('Tilapia', 'Tilapia'),
-    ('Nile Perch', 'Nile Perch'),
-    ('Dagaa', 'Dagaa'),
-    ('Shrawl', 'Shrawl'),
-    ('Cat Fish', 'Cat Fish'),
+('Tilapia', 'Tilapia'),
+('Nile Perch', 'Nile Perch'),
+('Dagaa', 'Dagaa'),
+('Shrawl', 'Shrawl'),
+('Cat Fish', 'Cat Fish'),
 
 )
+
+
+class UserManager(models.Manager):
+    phone_no = models.CharField(max_length=13, unique=True)
+    location = models.CharField(max_length=100, blank=True, default='')
+    times_contacted = models.PositiveIntegerField(default=0)
+
+    def create(self, username, email, first_name, last_name, phone_no, times_contacted, password):
+        user = User(
+            username=username,
+            email=email,
+            first_name=first_name,
+            last_name=last_name,
+        )
+        user.set_password(password=password)
+        user.save()
+        seller = Seller(
+            user=user,
+            phone_no=phone_no,
+            times_contacted=times_contacted, )
+        return user
 
 
 class FishCategory(models.Model):
@@ -89,14 +110,14 @@ class SellerInbox(models.Model):
 
     class Meta:
         ordering = ('-date_sent',)
-        verbose_name_plural = "Contact Messages Sent"
+        verbose_name_plural = "Seller Inbox"
 
     def __str__(self):
         return self.seller_phone
 
 
 class Newsletter(models.Model):
-    email = models.EmailField()
+    email = models.EmailField(unique=True)
     is_active = models.BooleanField(default=True)
 
     class Meta:
@@ -104,4 +125,24 @@ class Newsletter(models.Model):
 
     def __str__(self):
         return self.email
+
+
+# storing support contact messages
+
+class ContactUs(models.Model):
+    full_name = models.CharField(max_length=100, blank=True, null=True)
+    email = models.EmailField(blank=True)
+    phone_no = models.CharField(max_length=13)
+    message = models.TextField(max_length=200)
+    date_sent = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name_plural = 'Support Messages'
+
+    def __str__(self):
+        return self.phone_no
+
+    def __unicode__(self):
+        return self.phone_no
+
 

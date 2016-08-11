@@ -4,6 +4,7 @@ from shop.models import(FishCategory,
                         SellerPost,
                         SellerInbox,
                         Newsletter,
+                        ContactUs,
                         )
 
 
@@ -60,3 +61,11 @@ class NewsletterAdmin(admin.ModelAdmin):
     class Meta:
         model = Newsletter
 admin.site.register(Newsletter, NewsletterAdmin)
+
+
+class ContactUsAdmin(admin.ModelAdmin):
+    list_display = ['full_name', 'phone_no', 'email', 'message', 'date_sent']
+
+    class Meta:
+        model = ContactUs
+admin.site.register(ContactUs, ContactUsAdmin)
