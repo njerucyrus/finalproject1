@@ -1,4 +1,4 @@
-from rest_framework.serializers import ModelSerializer
+from rest_framework import serializers
 
 from shop.models import (Seller,
                          SellerPost,
@@ -9,7 +9,7 @@ from shop.models import (Seller,
 from django.contrib.auth.models import User
 
 
-class UserSerializer(ModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('id', 'username', 'email', 'first_name', 'last_name', 'password')
@@ -28,7 +28,7 @@ class UserSerializer(ModelSerializer):
         return user
 
 
-class SellerSerializer(ModelSerializer):
+class SellerSerializer(serializers.ModelSerializer):
     user = UserSerializer()
 
     class Meta:
@@ -36,13 +36,13 @@ class SellerSerializer(ModelSerializer):
         fields = ('pk', 'user', 'phone_no', 'location', 'times_contacted')
 
 
-class FishCategorySerializer(ModelSerializer):
+class FishCategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = FishCategory
         fields = ('id', 'category_name', 'slug')
 
 
-class SellerPostSerializer(ModelSerializer):
+class SellerPostSerializer(serializers.ModelSerializer):
     seller = SellerSerializer()
     fish_category = FishCategorySerializer()
 
@@ -59,13 +59,13 @@ class SellerPostSerializer(ModelSerializer):
                   'date_posted')
 
 
-class NewsletterSerializer(ModelSerializer):
+class NewsletterSerializer(serializers.ModelSerializer):
     class Meta:
         model = Newsletter
         fields = ('id', 'email')
 
 
-class SellerInboxSerializer(ModelSerializer):
+class SellerInboxSerializer(serializers.ModelSerializer):
     class Meta:
         model = SellerInbox
         fields = (
