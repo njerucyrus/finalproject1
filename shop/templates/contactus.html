@@ -1,5 +1,14 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
+
+{% block category %}
+
+    <li class="dropdown-header">Available Categories</li>
+    {% for c in categories %}
+        <li><a href="{{ c.get_absolute_url }}"> {{ c.category_name }}</a></li>
+    {% endfor %}
+{% endblock %}
+
 {% block content %}
     <div class="col col-md-4"></div>
     {% if message %}

@@ -62,9 +62,7 @@ def logout_user(request):
 
 
 def index(request):
-    categories = FishCategory.objects.all()
     posts = SellerPost.objects.filter(is_available=True)
-
     return render(request, 'home.html',
                   {'categories': categories,
                    'posts': posts, })
@@ -256,8 +254,8 @@ def contact_us(request):
         form = ContactUsForm(request.POST)
         if form.is_valid():
             form.save()
-            message = "Thankyou for communicating with mfish your message was received. we are working on your issue"
-            return render(request, 'contactus.html', {'message': message})
+            message = "Thankyou for communicating with m-fish your message was received. we are working on your issue"
+            return render(request, 'contactus.html', {'message': message, 'categories': categories,})
     else:
         form = ContactUsForm()
     return render(request, 'contactus.html', {'form':form})
