@@ -212,7 +212,7 @@ def contact_seller(request, pk=None):
             inbox_msg.save()
             post.seller.times_contacted += 1
             post.save()
-            return HttpResponse(message)
+            return HttpResponse("Message Sent Successfully!")
 
     else:
         form = ContactSellerForm()
