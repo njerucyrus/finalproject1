@@ -19,6 +19,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
+    url(r'^grappelli/', include('grappelli.urls')), # grappelli URLS
     url(r'^admin/', admin.site.urls),
     url(r'^', include('shop.urls', namespace='shop')),
     url(r'^api/', include('shop.api.v1.urls', namespace='v1')),
