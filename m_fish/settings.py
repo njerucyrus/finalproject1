@@ -150,7 +150,7 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
-
+GRAPPELLI_ADMIN_TITLE = 'M-FiSH ADMIN PANEL'
 
 # Africastaking v1 configuration
 
