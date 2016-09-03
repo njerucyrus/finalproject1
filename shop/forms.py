@@ -59,3 +59,7 @@ class ContactUsForm(forms.ModelForm):
     class Meta:
         model = ContactUs
         fields = '__all__'
+
+
+class SmsForm(forms.Form):
+    message = forms.CharField(max_length=200, widget=forms.Textarea)

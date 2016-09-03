@@ -19,12 +19,14 @@ from shop.models import (Seller,
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.db import transaction
+from AfricasTalkingGateway import AfricasTalkingGateway, AfricasTalkingGatewayException
 import json
 
 from m_fish.settings import API_KEY, USER_NAME
 
 
 categories = FishCategory.objects.all()
+
 
 def login_user(request):
     if request.method == 'POST':
@@ -200,19 +202,32 @@ def contact_seller(request, pk=None):
                       "The sale price will be {4} Ksh.\n" \
                       " please contact this customer to make the sale" \
                       "".format(seller, phone_no, amount, fish_category, total_price)
-            # create Model instance of  SellerInbox model
-            inbox_msg = SellerInbox.objects.create(
+           
+
+            gateway = AfricasTalkingGateway(USER_NAME, API_KEY)
+           
+            try:
+                # Thats it, hit send and we'll take care of the rest.
+                gateway.sendMessage(seller_phone, message)
+
+                # create Model instance of  SellerInbox model
+                inbox_msg = SellerInbox.objects.create(
                 seller_phone=seller_phone,
                 customer_phone=phone_no,
                 fish_category=fish_category,
                 price_per_kg=price,
                 amount_requested=amount,
-                message_sent=message
-            )
-            inbox_msg.save()
-            post.seller.times_contacted += 1
-            post.save()
-            return HttpResponse("Message Sent Successfully!")
+                message_sent=message)
+                inbox_msg.save()
+                post.seller.times_contacted += 1
+                post.save()
+
+                return HttpResponse("Message Sent Successfully!")
+            except AfricasTalkingGatewayException, e:
+                print 'Encountered an error while sending: %s' % str(e)
+
+             
+            
 
     else:
         form = ContactSellerForm()

@@ -14,27 +14,6 @@ FISH_CATEGORY = (
 )
 
 
-class UserManager(models.Manager):
-    phone_no = models.CharField(max_length=13, unique=True)
-    location = models.CharField(max_length=100, blank=True, default='')
-    times_contacted = models.PositiveIntegerField(default=0)
-
-    def create(self, username, email, first_name, last_name, phone_no, times_contacted, password):
-        user = User(
-            username=username,
-            email=email,
-            first_name=first_name,
-            last_name=last_name,
-        )
-        user.set_password(password=password)
-        user.save()
-        seller = Seller(
-            user=user,
-            phone_no=phone_no,
-            times_contacted=times_contacted, )
-        return user
-
-
 class FishCategory(models.Model):
     category_name = models.CharField(max_length=20, choices=FISH_CATEGORY, default=FISH_CATEGORY[0][0], unique=True)
     slug = models.SlugField(max_length=20, db_index=True, unique=True)
@@ -55,6 +34,7 @@ class Seller(models.Model):
     phone_no = models.CharField(max_length=13, unique=True)
     location = models.CharField(max_length=100, blank=True, default='')
     times_contacted = models.PositiveIntegerField(default=0)
+
 
     class Meta:
         verbose_name_plural = 'Sellers'

@@ -22,7 +22,7 @@ urlpatterns = [
     url(r'^grappelli/', include('grappelli.urls')), # grappelli URLS
     url(r'^admin/', admin.site.urls),
     url(r'^', include('shop.urls', namespace='shop')),
-    url(r'^api/', include('shop.api.v1.urls', namespace='v1')),
+    url(r'^api/', include('api.urls', namespace='v1')),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]
 if settings.DEBUG:

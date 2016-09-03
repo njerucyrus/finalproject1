@@ -2577,7 +2577,7 @@ tinymce.html.Styles = function(settings, schema) {
 				C : 'onclick|ondblclick|onmousedown|onmouseup|onmouseover|onmousemove|onmouseout|onkeypress|onkeydown|onkeyup',
 				B : 'lang|xml:lang|dir',
 				A : 'id|class|style|title'
-			}, 'script[id|charset|type|language|src|defer|xml:space][]' + 
+			}, 'script[id|charset|type|language|src|defer|xml:space][]' +
 				'style[B|id|type|media|title|xml:space][]' + 
 				'object[E|declare|classid|codebase|data|type|codetype|archive|standby|width|height|usemap|name|tabindex|align|border|hspace|vspace][#|param|Y]' + 
 				'param[id|name|value|valuetype|type][]' + 
@@ -2588,10 +2588,10 @@ tinymce.html.Styles = function(settings, schema) {
 				'bdo[A|C|B][#|S]' + 
 				'applet[A|codebase|archive|code|object|alt|name|width|height|align|hspace|vspace][#|param|Y]' + 
 				'h1[E|align][#|S]' + 
-				'img[E|src|alt|name|longdesc|width|height|usemap|ismap|align|border|hspace|vspace][]' + 
+				'img[E|src|alt|name|longdesc|width|height|usemap|ismap|align|border|hspace|vspace][]' +
 				'map[B|C|A|name][X|form|Q|area]' + 
 				'h2[E|align][#|S]' + 
-				'iframe[A|longdesc|name|src|frameborder|marginwidth|marginheight|scrolling|align|width|height][#|Y]' + 
+				'iframe[A|longdesc|name|src|frameborder|marginwidth|marginheight|scrolling|align|width|height][#|Y]' +
 				'h3[E|align][#|S]' + 
 				'tt[E][#|S]' + 
 				'i[E][#|S]' + 
@@ -2616,7 +2616,7 @@ tinymce.html.Styles = function(settings, schema) {
 				'acronym[E][#|S]' + 
 				'sub[E][#|S]' + 
 				'sup[E][#|S]' + 
-				'input[E|D|type|name|value|checked|disabled|readonly|size|maxlength|src|alt|usemap|onselect|onchange|accept|align][]' + 
+				'input[E|D|type|name|value|checked|disabled|readonly|size|maxlength|src|alt|usemap|onselect|onchange|accept|align][]' +
 				'select[E|name|size|multiple|disabled|tabindex|onfocus|onblur|onchange][optgroup|option]' + 
 				'optgroup[E|disabled|label][option]' + 
 				'option[E|selected|disabled|label|value][]' + 

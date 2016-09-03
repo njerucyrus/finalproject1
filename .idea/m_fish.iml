@@ -13,8 +13,10 @@
     <content url="file://$MODULE_DIR$" />
     <orderEntry type="jdk" jdkName="Python 3.4.3 (/usr/bin/python3.4)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="gas_web" />
     <orderEntry type="module" module-name="blacktunes_254" />
+    <orderEntry type="module" module-name="ebook" />
+    <orderEntry type="module" module-name="gas_web" />
+    <orderEntry type="module" module-name="hakiki" />
   </component>
   <component name="TemplatesService">
     <option name="TEMPLATE_CONFIGURATION" value="Django" />

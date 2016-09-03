@@ -13,5 +13,6 @@ urlpatterns = [
     url(r'^posts/(?P<pk>\d+)/$', views.post_detail, name='post_detail'),
     url(r'^newsletter/$', views.newsletter_signup, name='newsletter'),
     url(r'^support/$', views.contact_us, name='contact_us'),
+    #url(r'^inform/$', views.send_educative_sms, name='inform'),
 
 ]

@@ -6,12 +6,10 @@
     }
 </style>
 {% block category %}
-
     <li class="dropdown-header">Available Categories</li>
     {% for c in categories %}
         <li><a href="{{ c.get_absolute_url }}"> {{ c.category_name }}</a></li>
     {% endfor %}
-
 {% endblock %}
 {% block content %}
     <div class="container">
@@ -31,8 +29,8 @@
                             <div class="panel-footer">Price {{ fish.price }} Ksh @ 1Kg<br>
                                 Post by: {{ fish.seller.user.username }} &nbsp;&nbsp;
 
-                                <a href="{% url 'shop:edit_post' pk=fish.pk %}"><span
-                                        class="glyphicon glyphicon-pencil">Edit</span></a>
+                                 <a href="{% url 'shop:edit_post' pk=fish.pk %}"><span
+                                        class="glyphicon glyphicon-pencil">Edit</span></a> -->
                                 &nbsp;&nbsp;
                                 <a href="{% url 'shop:contact_seller' pk=fish.pk %}"><span
                                         class="glyphicon glyphicon-envelope"></span></a>
