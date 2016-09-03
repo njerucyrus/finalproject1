@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>DjangoModelDependency</ID>
+  <OriginalElement>#m_fish</OriginalElement>
+  <nodes>
+    <node x="-169.99289520426288" y="220.3285968028419">shop.models.Seller</node>
+    <node x="-101.70515097690941" y="416.6483126110125">shop.models.SellerInbox</node>
+    <node x="711.600355239787" y="88.28596802841923">shop.models.Newsletter</node>
+    <node x="163.72291296625218" y="17.602131438721244">shop.models.SellerPost</node>
+    <node x="756.721136767318" y="333.8312611012434">shop.models.ContactUs</node>
+    <node x="-157.27531083481352" y="27.605683836589698">django.contrib.auth.models.User</node>
+    <node x="350.3641207815276" y="460.3623445825932">shop.models.FishCategory</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="shop.models.Seller" target="django.contrib.auth.models.User">
+      <point x="0.0" y="-78.5" />
+      <point x="0.0" y="28.5" />
+    </edge>
+    <edge source="shop.models.SellerPost" target="shop.models.FishCategory">
+      <point x="91.75" y="-116.0" />
+      <point x="353.25" y="289.0" />
+      <point x="398.5" y="289.0" />
+      <point x="0.0" y="53.5" />
+    </edge>
+    <edge source="shop.models.SellerPost" target="shop.models.Seller">
+      <point x="-91.75" y="-116.0" />
+      <point x="169.75" y="289.0" />
+      <point x="124.5" y="289.0" />
+      <point x="0.0" y="78.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.6882640586797066" x="473.5" y="399.0" />
+  <SelectedNodes>
+    <node>shop.models.SellerInbox</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Fields</Category>
+  </Categories>
+</Diagram>
+

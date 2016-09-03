@@ -1,0 +1,92 @@
+from rest_framework import serializers
+
+from shop.models import (Seller,
+                         SellerPost,
+                         FishCategory,
+                         SellerInbox,
+                         Newsletter,)
+
+from django.contrib.auth.models import User
+
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('id', 'username', 'email', 'first_name', 'last_name', 'password')
+        extra_kwargs = {'password': {'write_only': True}}
+
+    def create(self, validated_data):
+        user = User(
+            email=validated_data['email'],
+            username=validated_data['username'],
+            first_name=validated_data['first_name'],
+            last_name=validated_data['last_name']
+        )
+
+        user.set_password(validated_data['password'])
+        user.save()
+        return user
+
+
+class SellerSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+
+    class Meta:
+        model = Seller
+        fields = ('phone_no', 'location', 'times_contacted', 'user')
+
+    def create(self, validated_data):
+        user_data = validated_data.pop('user')
+        user = User.objects.create(**user_data)
+        user.save()
+        for validated_data in validated_data:
+            seller = Seller.objects.create(user=user, **validated_data)
+            seller.save()
+        return user
+
+
+class FishCategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FishCategory
+        fields = ('id', 'category_name', 'slug')
+
+
+class SellerPostSerializer(serializers.ModelSerializer):
+    seller = SellerSerializer()
+    fish_category = FishCategorySerializer()
+
+    class Meta:
+        model = SellerPost
+        fields = ('id',
+                  'seller',
+                  'fish_category',
+                  'fish_photo',
+                  'quantity',
+                  'price',
+                  'available_amt',
+                  'is_available',
+                  'date_posted')
+
+
+class NewsletterSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Newsletter
+        fields = ('id', 'email')
+
+
+class SellerInboxSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SellerInbox
+        fields = (
+            'id',
+            'customer_phone',
+            'seller_phone',
+            'fish_category',
+            'price_per_kg',
+            'amount_requested',
+            'message_sent',
+            'date_sent'
+        )
+
+
+
