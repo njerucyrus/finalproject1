@@ -29,9 +29,9 @@
                             <div class="panel-footer">Price {{ fish.price }} Ksh @ 1Kg<br>
                                 Post by: {{ fish.seller.user.username }} &nbsp;&nbsp;
 
-                                 <a href="{% url 'shop:edit_post' pk=fish.pk %}"><span
-                                        class="glyphicon glyphicon-pencil">Edit</span></a> -->
-                                &nbsp;&nbsp;
+{#                                 <a href="{% url 'shop:edit_post' pk=fish.pk %}"><span#}
+{#                                        class="glyphicon glyphicon-pencil">Edit</span></a>#}
+{#                                &nbsp;&nbsp;#}
                                 <a href="{% url 'shop:contact_seller' pk=fish.pk %}"><span
                                         class="glyphicon glyphicon-envelope"></span></a>
 
